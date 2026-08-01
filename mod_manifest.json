@@ -1,0 +1,21 @@
+{
+  "id": "FateNightOfTheGalacticRailway",
+  "name": "FateNightOfTheGalacticRailway",
+  "author": "User",
+  "version": "0.1.0",
+  "min_game_version": "0.107.1",
+  "description": "Fate/Night of the Galactic Railway - 远坂凛角色MOD",
+  "has_dll": true,
+  "has_pck": true,
+  "affects_gameplay": true,
+  "dependencies": [
+    {
+      "id": "STS2-RitsuLib",
+      "min_version": "0.4.27"
+    },
+    {
+      "id": "BaseLib",
+      "min_version": "3.3.0"
+    }
+  ]
+}

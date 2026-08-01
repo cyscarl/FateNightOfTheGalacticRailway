@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>STS2.RitsuLib</id>
+    <version>0.4.27</version>
+    <authors>OLC</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/BAKAOLC/STS2-RitsuLib</projectUrl>
+    <description>Shared framework library for Slay the Spire 2 mods.</description>
+    <repository type="git" url="https://github.com/BAKAOLC/STS2-RitsuLib" commit="288c3555d7e0ebd2aaa24c1c814b95f8a198bb64" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Godot.SourceGenerators" version="4.5.1" exclude="Build,Analyzers" />
+        <dependency id="GodotSharp" version="4.5.1" exclude="Build,Analyzers" />
+        <dependency id="System.IO.Hashing" version="9.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <contentFiles>
+      <files include="any/any/viewer/assets/index.css" buildAction="None" />
+      <files include="any/any/viewer/assets/index.js" buildAction="None" />
+      <files include="any/any/viewer/index.html" buildAction="None" />
+      <files include="any/net9.0/.godot/mono/temp/obj/Release/mod_manifest.generated.json" buildAction="Content" />
+      <files include="any/any/mod_manifest.json" buildAction="None" />
+    </contentFiles>
+  </metadata>
+</package>

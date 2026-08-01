@@ -1,0 +1,28 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+*.pck
+*.zip
+/dev/
+.vscode/
+bin/**/~*
+.gemini
+/public/
+/tools/
+
+# Build outputs
+bin/
+obj/
+
+# NuGet
+*.nupkg
+
+# IDE
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+
+# Local config
+local.props
+packages/

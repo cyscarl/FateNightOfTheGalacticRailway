@@ -1,0 +1,20 @@
+{
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.title": "Tohsaka Rin",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.titleObject": "Tohsaka Rin",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.description": "A young magus from a world beyond the stars, where magic and mystery still thrive. The sixth head of the Tohsaka family, a lineage of mages from Fuyuki City, she constantly hones her craft with unwavering determination.",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.pronounObject": "her",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.possessiveAdjective": "her",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.pronounPossessive": "hers",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.pronounSubject": "she",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.goldMonologue": "...",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.eventDeathPrevention": "...",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.aromaPrinciple": "Rin",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.cardsModifierTitle": "Rin Cards",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.cardsModifierDescription": "Cards from Rin",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.banter.alive.endTurnPing": "",
+  "FATE_NIGHT_OF_THE_GALACTIC_RAILWAY_CHARACTER_TOSAKA_RIN.banter.dead.endTurnPing": "",
+  "THE_ARCHITECT.talk.TOSAKA_RIN.0-0r.char": "",
+  "THE_ARCHITECT.talk.TOSAKA_RIN.0-0r.next": "",
+  "THE_ARCHITECT.talk.TOSAKA_RIN.0-1r.ancient": "",
+  "THE_ARCHITECT.talk.TOSAKA_RIN.0-attack": ""
+}
