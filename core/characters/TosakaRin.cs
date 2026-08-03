@@ -43,6 +43,12 @@ public class TosakaRin : ModCharacterTemplate<RinCardPool, RinRelicPool, RinPoti
             CharacterSelectLockedIconPath: "res://FateNightOfTheGalacticRailway/images/charui/tosaka_rin/char_select_locked.png",
             MapMarkerPath: "res://FateNightOfTheGalacticRailway/images/charui/tosaka_rin/map_marker.png",
             CharacterSelectBgPath: "res://FateNightOfTheGalacticRailway/images/charui/tosaka_rin/select_bg.png"
+        ),
+        Multiplayer: new CharacterMultiplayerAssetSet(
+            ArmPointingTexturePath: "res://FateNightOfTheGalacticRailway/images/charui/tosaka_rin/hand_pointer.png",
+            ArmRockTexturePath: "res://FateNightOfTheGalacticRailway/images/charui/tosaka_rin/hand_rock.png",
+            ArmPaperTexturePath: "res://FateNightOfTheGalacticRailway/images/charui/tosaka_rin/hand_paper.png",
+            ArmScissorsTexturePath: "res://FateNightOfTheGalacticRailway/images/charui/tosaka_rin/hand_scissors.png"
         )
     );
 }
