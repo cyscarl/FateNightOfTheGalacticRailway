@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lo6i2gmho5b0"
-path="res://.godot/imported/aha_strike_damage_up.png-fa03fb21ad12d34b514239568a8c0073.ctex"
+uid="uid://b8w16dv4sjdqb"
+path="res://.godot/imported/angelina2.png-1f9c1ed964f5b9c50cea98c674d80a6d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://FateNightOfTheGalacticRailway/images/powers/tosaka_rin/aha_strike_damage_up.png"
-dest_files=["res://.godot/imported/aha_strike_damage_up.png-fa03fb21ad12d34b514239568a8c0073.ctex"]
+source_file="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.png"
+dest_files=["res://.godot/imported/angelina2.png-1f9c1ed964f5b9c50cea98c674d80a6d.ctex"]
 
 [params]
 

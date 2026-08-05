@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://2hdbymslbwym"
+path="res://.godot/imported/angelina2.atlas-4b607b56b94e6f9c41f7af17204cdba2.spatlas"
+
+[deps]
+
+source_file="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.atlas"
+dest_files=["res://.godot/imported/angelina2.atlas-4b607b56b94e6f9c41f7af17204cdba2.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

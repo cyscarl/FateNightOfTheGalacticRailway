@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Godot;
+using MegaCrit.Sts2.Core.Animation;
+using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -29,6 +31,35 @@ public class TosakaRin : ModCharacterTemplate<RinCardPool, RinRelicPool, RinPoti
     /// <summary>
     /// Override asset profile to point to mod-relative paths under FateNightOfTheGalacticRailway/.
     /// </summary>
+    /// <summary>
+    /// Map Arknights animation names to STS2 expected animation names.
+    /// Angelina2 model: Relax, OnAttack, OnStart, Sleep, Move, Interact, Sit, etc.
+    /// </summary>
+    public override CreatureAnimator GenerateAnimator(MegaSprite controller)
+    {
+        var idle = new AnimState("Relax", isLooping: true);
+        var cast = new AnimState("Interact"); // Interact is more visible than OnStart
+        var attack = new AnimState("Move");   // Move is more visible than OnAttack
+        var hurt = new AnimState("OnAttack");
+        var die = new AnimState("Sleep");
+        var relaxed = new AnimState("Relax", isLooping: true);
+
+        cast.NextState = idle;
+        attack.NextState = idle;
+        hurt.NextState = idle;
+        relaxed.AddBranch("Idle", idle);
+
+        var animator = new CreatureAnimator(idle, controller);
+        animator.AddAnyState("Idle", idle);
+        animator.AddAnyState("Dead", die);
+        animator.AddAnyState("Hit", hurt);
+        animator.AddAnyState("Attack", attack);
+        animator.AddAnyState("Cast", cast);
+        animator.AddAnyState("PowerUp", cast);
+        animator.AddAnyState("Relaxed", relaxed);
+        return animator;
+    }
+
     public override CharacterAssetProfile AssetProfile => new(
         Scenes: new CharacterSceneAssetSet(
             EnergyCounterPath: "res://FateNightOfTheGalacticRailway/scenes/tosaka_rin/energy_counter.tscn",
