@@ -3,9 +3,11 @@ using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using FateNightOfTheGalacticRailway.Core.Cards;
 using FateNightOfTheGalacticRailway.Core.Characters;
+using FateNightOfTheGalacticRailway.Core.Patches;
 using FateNightOfTheGalacticRailway.Core.Relics;
 using STS2RitsuLib;
 using STS2RitsuLib.Interop;
+using STS2RitsuLib.Patching.Core;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace FateNightOfTheGalacticRailway;
@@ -80,6 +82,7 @@ public static class FateNightOfTheGalacticRailwayMod
         pack.Apply();
 
         var patcher = RitsuLibFramework.CreatePatcher(MOD_ID, "core");
+        patcher.RegisterPatches<SpineAnimationPatches>();
         patcher.PatchAll();
     }
 }

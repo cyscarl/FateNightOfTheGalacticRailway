@@ -4,10 +4,11 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Runs;
+using FateNightOfTheGalacticRailway.Core.Characters;
 
 namespace FateNightOfTheGalacticRailway.Core.Relics;
 
-[Pool(typeof(SharedRelicPool))]
+[Pool(typeof(RinRelicPool))]
 public sealed class UnlimitedBladeWorks : CustomRelicModel
 {
     public override RelicRarity Rarity => RelicRarity.Rare;

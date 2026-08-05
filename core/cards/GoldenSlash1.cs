@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
@@ -45,28 +46,42 @@ public abstract class GoldenSlashBase : CustomCardModel
         await base.AfterCardEnteredCombat(card);
     }
 
-    /// <summary>Generate a random variant, increment the global counter.</summary>
+    /// <summary>
+    /// Chain trigger: if there is no other GoldenSlash in hand, gain 1 random
+    /// GoldenSlash variant (Ethereal + Exhaust). If this card is upgraded, the
+    /// generated variant is also upgraded. All GoldenSlash cards cost +1 this turn.
+    /// </summary>
     protected async Task TriggerChain(PlayerChoiceContext choiceContext)
     {
         if (Owner == null || CombatState == null) return;
 
-        // Increment the global tracker — this makes all future GoldenSlash costs +1
+        // Only trigger if no other GoldenSlash is already in hand.
+        var handPile = PileType.Hand.GetPile(Owner);
+        bool hasOtherInHand = handPile?.Cards.Any(c => c is GoldenSlashBase && c != this) == true;
+        if (hasOtherInHand) return;
+
+        // Increment the global tracker — all GoldenSlash costs +1 this turn.
         GoldenSlashTracker.Increment();
 
-        // Generate a random variant with Ethereal + Exhaust using ICardScope.CreateCard<T>
+        // Generate a random variant using ICardScope.CreateCard<T>.
         var rng = Owner.RunState.Rng.CombatCardGeneration;
         var variantType = SlashVariants[rng.NextInt(SlashVariants.Length)];
         var method = typeof(ICardScope).GetMethod(nameof(ICardScope.CreateCard), new[] { typeof(Player) })!
             .MakeGenericMethod(variantType);
         var newCard = (CardModel)method.Invoke(CombatState, new object[] { Owner })!;
+
+        // Upgraded card chains into upgraded variants.
+        if (IsUpgraded)
+            CardCmd.Upgrade(newCard, CardPreviewStyle.None);
+
+        // Generated card gains Ethereal + Exhaust and the current chain cost.
         newCard.AddKeyword(CardKeyword.Ethereal);
         newCard.AddKeyword(CardKeyword.Exhaust);
         newCard.EnergyCost.AddThisTurn(GoldenSlashTracker.ExtraCost);
 
         await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, Owner);
 
-        // Also update existing GoldenSlash cards in hand
-        var handPile = PileType.Hand.GetPile(Owner);
+        // Existing GoldenSlash cards in hand also cost +1 this turn.
         if (handPile != null)
         {
             foreach (var card in handPile.Cards)

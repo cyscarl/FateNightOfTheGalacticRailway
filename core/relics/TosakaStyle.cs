@@ -1,14 +1,21 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.RelicPools;
+using MegaCrit.Sts2.Core.Rewards;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using FateNightOfTheGalacticRailway.Core.Cards;
+using FateNightOfTheGalacticRailway.Core.Characters;
 using FateNightOfTheGalacticRailway.Core.Potions;
 
 namespace FateNightOfTheGalacticRailway.Core.Relics;
@@ -17,7 +24,7 @@ namespace FateNightOfTheGalacticRailway.Core.Relics;
 /// 远坂流 — +3 potion slots (applied once on obtain). Each combat, generate 2 random gem potions.
 /// Also manages GoldenSlash counter resets.
 /// </summary>
-[Pool(typeof(SharedRelicPool))]
+[Pool(typeof(RinRelicPool))]
 public sealed class TosakaStyle : CustomRelicModel
 {
     private bool _potionsGeneratedThisCombat;
@@ -29,6 +36,15 @@ public sealed class TosakaStyle : CustomRelicModel
         typeof(TreasureGemPotion),
         typeof(ProjectionGemPotion),
         typeof(ExcaliburGemPotion),
+    };
+
+    /// <summary>The 4 special Boss relics, offered as a 3-choice after each act boss.</summary>
+    private static readonly Type[] BossRelicTypes =
+    {
+        typeof(FlySafely),
+        typeof(Excalibur),
+        typeof(EnumaElish),
+        typeof(UnlimitedBladeWorks),
     };
 
     public override RelicRarity Rarity => RelicRarity.Starter;
@@ -57,10 +73,54 @@ public sealed class TosakaStyle : CustomRelicModel
         return base.BeforeCombatStartLate();
     }
 
+    /// <summary>
+    /// Reset the GoldenSlash cost counter at the end of each turn so that
+    /// next turn's draws start from the initial cost (fixes 2-turn bleed).
+    /// </summary>
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
+        GoldenSlashTracker.ResetForTurn();
+        return base.AfterSideTurnEnd(choiceContext, side, participants);
+    }
+
+    /// <summary>
+    /// After each act boss, add a linked 3-choice of the special Boss relics
+    /// (FlySafely / Excalibur / EnumaElish / UnlimitedBladeWorks), excluding any
+    /// already owned. LinkedRewardSet gives the "pick one of three" behavior.
+    /// </summary>
+    public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
+    {
+        if (player != Owner) return false;
+        if (room?.RoomType != RoomType.Boss) return false;
+
+        var ownedTypes = player.Relics.Select(r => r.GetType()).ToHashSet();
+        var candidates = BossRelicTypes.Where(t => !ownedTypes.Contains(t)).ToList();
+        if (candidates.Count == 0) return false;
+
+        var rng = player.PlayerRng.Rewards;
+        var offers = new List<Reward>();
+        while (offers.Count < 3 && candidates.Count > 0)
+        {
+            int idx = rng.NextInt(candidates.Count);
+            var type = candidates[idx];
+            candidates.RemoveAt(idx);
+            offers.Add(new RelicReward(CreateBossRelic(type), player));
+        }
+
+        rewards.Add(new LinkedRewardSet(offers, player));
+        return true;
+    }
+
+    private static RelicModel CreateBossRelic(Type type)
+    {
+        var method = typeof(ModelDb).GetMethod(nameof(ModelDb.Relic))!
+            .MakeGenericMethod(type);
+        return (RelicModel)method.Invoke(null, null)!;
+    }
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         await base.AfterPlayerTurnStart(choiceContext, player);
-        GoldenSlashTracker.ResetForTurn();
 
         if (_potionsGeneratedThisCombat || Owner == null || player != Owner) return;
         _potionsGeneratedThisCombat = true;

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://FateNightOfTheGalacticRailway/nodes/restsite/NRinSelectionReticle.cs" id="1_script"]
+
+[node name="SelectionReticle" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -129.0
+offset_top = -179.0
+offset_right = 123.0
+offset_bottom = -1.0
+pivot_offset = Vector2(126, 84)
+mouse_filter = 2
+script = ExtResource("1_script")

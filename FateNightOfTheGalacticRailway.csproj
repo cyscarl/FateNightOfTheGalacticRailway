@@ -89,6 +89,9 @@
 
     <ItemGroup>
         <Compile Remove="FateNightOfTheGalacticRailway/**" />
+        <!-- Godot resource dir is excluded from compilation, EXCEPT the C# scripts
+             attached to scenes (e.g. NRinCharacterVisuals) which must be in the DLL. -->
+        <Compile Include="FateNightOfTheGalacticRailway/nodes/**/*.cs" />
         <Compile Remove="content/**" />
         <Compile Remove="**/*.uid" />
         <Compile Remove="materials/**" />

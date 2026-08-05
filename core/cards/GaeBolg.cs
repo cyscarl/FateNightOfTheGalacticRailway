@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -42,12 +44,16 @@ public class GaeBolg : CustomCardModel
             .Execute(choiceContext);
     }
 
-    /// <summary>Reduce cost by 1 each turn this card stays in hand.</summary>
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    /// <summary>
+    /// Reduce cost by 1 at the end of each turn while this card stays in hand.
+    /// Each trigger stacks (cost -1 from the current cost). Resets when played.
+    /// </summary>
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
-        await base.AfterPlayerTurnStart(choiceContext, player);
-        if (Pile?.Type == PileType.Hand && Owner == player)
-            EnergyCost.AddThisTurn(-1);
+        await base.AfterSideTurnEnd(choiceContext, side, participants);
+        if (side != CombatSide.Player) return;
+        if (Pile?.Type != PileType.Hand || Owner == null) return;
+        EnergyCost.AddUntilPlayed(-1);
     }
 
     protected override void OnUpgrade()
