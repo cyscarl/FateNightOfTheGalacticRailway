@@ -1,9 +1,0 @@
-[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3 uid="uid://bisow0wp4l8xi"]
-
-[ext_resource type="SpineAtlasResource" uid="uid://2hdbymslbwym" path="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.atlas" id="1_atlas"]
-[ext_resource type="SpineSkeletonFileResource" uid="uid://bbs454nr1xc8d" path="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.skel" id="2_skel"]
-
-[resource]
-atlas_res = ExtResource("1_atlas")
-skeleton_file_res = ExtResource("2_skel")
-default_mix = 0.4

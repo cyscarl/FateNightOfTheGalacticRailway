@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using STS2RitsuLib.Patching.Core;
 using STS2RitsuLib.Patching.Models;
@@ -37,7 +38,9 @@ public class SpineAnimStateCachePatch : IPatchMethod
 
     public static void Postfix(MegaSprite __instance, MegaAnimationState __result)
     {
-        if (__result?.BoundObject != null && __instance.HasAnimation(DetectAnim))
+        bool hasAnim = __instance.HasAnimation(DetectAnim);
+        GD.Print($"[RinAnim] GetAnimationState cached={hasAnim} id={__result?.BoundObject?.GetInstanceId()}");
+        if (__result?.BoundObject != null && hasAnim)
             RinStateIds.Add(__result.BoundObject.GetInstanceId());
     }
 }
@@ -57,9 +60,9 @@ public class SpineAnimationPatch : IPatchMethod
     {
         ["idle_loop"] = "Relax",
         ["relaxed_loop"] = "Relax",
-        ["attack"] = "Move",
+        ["attack"] = "Interact",
         ["cast"] = "Interact",
-        ["hurt"] = "OnAttack",
+        ["hurt"] = "Move",
         ["die"] = "Sleep",
         ["overgrowth_loop"] = "Sit",
         ["hive_loop"] = "Sit",
@@ -71,8 +74,10 @@ public class SpineAnimationPatch : IPatchMethod
 
     public static void Prefix(MegaAnimationState __instance, ref string animationName)
     {
-        if (__instance?.BoundObject == null) return;
-        if (!SpineAnimStateCachePatch.RinStateIds.Contains(__instance.BoundObject.GetInstanceId())) return;
+        var id = __instance?.BoundObject?.GetInstanceId();
+        bool cached = id.HasValue && SpineAnimStateCachePatch.RinStateIds.Contains(id.Value);
+        GD.Print($"[RinAnim] SetAnimation('{animationName}') id={id} cached={cached}");
+        if (id == null || !cached) return;
         if (Remap.TryGetValue(animationName, out string mapped))
             animationName = mapped;
     }

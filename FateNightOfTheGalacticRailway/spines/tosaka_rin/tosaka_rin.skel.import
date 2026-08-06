@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://byl2kjsf7pj8x"
+path="res://.godot/imported/tosaka_rin.skel-6bd061e39d34b931ca42149f8ed262f5.spskel"
+
+[deps]
+
+source_file="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/tosaka_rin.skel"
+dest_files=["res://.godot/imported/tosaka_rin.skel-6bd061e39d34b931ca42149f8ed262f5.spskel"]
+
+[params]
+

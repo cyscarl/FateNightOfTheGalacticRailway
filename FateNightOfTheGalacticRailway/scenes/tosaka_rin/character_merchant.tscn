@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://deljdpwo3w3fv"]
 
-[ext_resource type="SpineSkeletonDataResource" uid="uid://bisow0wp4l8xi" path="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.tres" id="1_skeleton"]
+[ext_resource type="SpineSkeletonDataResource" uid="uid://bisow0wp4l8xi" path="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/tosaka_rin.tres" id="1_skeleton"]
 
 [node name="MerchantCharacter" type="Node2D"]
 

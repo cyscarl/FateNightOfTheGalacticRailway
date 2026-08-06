@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://ds0vildwlajmj"
+path="res://.godot/imported/tosaka_rin.atlas-d74be63fc0dea19305467ef849b8699c.spatlas"
+
+[deps]
+
+source_file="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/tosaka_rin.atlas"
+dest_files=["res://.godot/imported/tosaka_rin.atlas-d74be63fc0dea19305467ef849b8699c.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

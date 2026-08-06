@@ -9,9 +9,9 @@ namespace FateNightOfTheGalacticRailway.Core.Patches;
 public static class SpineFixPatch
 {
     private const string AtlasPath =
-        "res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.atlas";
+        "res://FateNightOfTheGalacticRailway/spines/tosaka_rin/tosaka_rin.atlas";
     private const string SkelPath =
-        "res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.skel";
+        "res://FateNightOfTheGalacticRailway/spines/tosaka_rin/tosaka_rin.skel";
 
     [HarmonyPostfix]
     private static void Postfix(NCreatureVisuals __instance)

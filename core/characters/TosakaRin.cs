@@ -38,9 +38,9 @@ public class TosakaRin : ModCharacterTemplate<RinCardPool, RinRelicPool, RinPoti
     public override CreatureAnimator GenerateAnimator(MegaSprite controller)
     {
         var idle = new AnimState("Relax", isLooping: true);
-        var cast = new AnimState("Interact"); // Interact is more visible than OnStart
-        var attack = new AnimState("Move");   // Move is more visible than OnAttack
-        var hurt = new AnimState("OnAttack");
+        var cast = new AnimState("Interact"); // cast / attack use Interact
+        var attack = new AnimState("Interact");
+        var hurt = new AnimState("Move");     // hurt uses Move
         var die = new AnimState("Sleep");
         var relaxed = new AnimState("Relax", isLooping: true);
 

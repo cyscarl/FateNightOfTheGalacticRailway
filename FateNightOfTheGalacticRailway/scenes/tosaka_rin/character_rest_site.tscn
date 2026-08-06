@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ce8cgdrss1y1a"]
 
-[ext_resource type="SpineSkeletonDataResource" uid="uid://bisow0wp4l8xi" path="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/angelina2.tres" id="1_skeleton"]
+[ext_resource type="SpineSkeletonDataResource" uid="uid://bisow0wp4l8xi" path="res://FateNightOfTheGalacticRailway/spines/tosaka_rin/tosaka_rin.tres" id="1_skeleton"]
 [ext_resource type="PackedScene" path="res://FateNightOfTheGalacticRailway/scenes/tosaka_rin/selection_reticle.tscn" id="2_reticle"]
 
 [node name="RestSiteCharacter" type="Node2D"]
