@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Godot;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using STS2RitsuLib.Patching.Core;
 using STS2RitsuLib.Patching.Models;
@@ -7,9 +6,9 @@ using STS2RitsuLib.Patching.Models;
 namespace FateNightOfTheGalacticRailway.Core.Patches;
 
 /// <summary>
-/// Registers the two Spine animation patches that remap vanilla animation
-/// names (used by the merchant / rest-site scenes) to TosakaRin's model
-/// animations.
+/// Registers the Spine animation patches that remap vanilla animation names
+/// (merchant / rest-site scenes) to TosakaRin's model animations, and speed
+/// up the attack/cast/hurt animations 3x.
 /// </summary>
 public class SpineAnimationPatches : IModPatches
 {
@@ -17,12 +16,14 @@ public class SpineAnimationPatches : IModPatches
     {
         patcher.RegisterPatch<SpineAnimStateCachePatch>();
         patcher.RegisterPatch<SpineAnimationPatch>();
+        patcher.RegisterPatch<ArchitectDialoguePatch>();
     }
 }
 
 /// <summary>
 /// Cache the MegaAnimationState instance ids that belong to TosakaRin's
 /// Spine skeletons (detected by the presence of the "Relax" animation).
+/// Waits until the skeleton data is ready before caching.
 /// </summary>
 public class SpineAnimStateCachePatch : IPatchMethod
 {
@@ -38,9 +39,8 @@ public class SpineAnimStateCachePatch : IPatchMethod
 
     public static void Postfix(MegaSprite __instance, MegaAnimationState __result)
     {
-        bool hasAnim = __instance.HasAnimation(DetectAnim);
-        GD.Print($"[RinAnim] GetAnimationState cached={hasAnim} id={__result?.BoundObject?.GetInstanceId()}");
-        if (__result?.BoundObject != null && hasAnim)
+        if (__result?.BoundObject == null) return;
+        if (__instance.HasAnimation(DetectAnim))
             RinStateIds.Add(__result.BoundObject.GetInstanceId());
     }
 }
@@ -48,7 +48,8 @@ public class SpineAnimStateCachePatch : IPatchMethod
 /// <summary>
 /// Remap vanilla animation names to the animations actually present in the
 /// TosakaRin Spine model. Covers merchant (relaxed_loop) and rest-site
-/// (overgrowth_loop / hive_loop / glory_loop) scenes.
+/// (overgrowth_loop / hive_loop / glory_loop) scenes. Also plays the
+/// attack/cast/hurt animations (Interact / Move) at 3x speed.
 /// </summary>
 public class SpineAnimationPatch : IPatchMethod
 {
@@ -69,16 +70,25 @@ public class SpineAnimationPatch : IPatchMethod
         ["glory_loop"] = "Sit",
     };
 
+    /// <summary>Animations to play at 3x speed (attack/cast/hurt).</summary>
+    private static readonly HashSet<string> FastAnims = new() { "Interact", "Move" };
+    private const float FastSpeed = 3f;
+
     public static ModPatchTarget[] GetTargets() =>
         [new(typeof(MegaAnimationState), nameof(MegaAnimationState.SetAnimation))];
 
     public static void Prefix(MegaAnimationState __instance, ref string animationName)
     {
-        var id = __instance?.BoundObject?.GetInstanceId();
-        bool cached = id.HasValue && SpineAnimStateCachePatch.RinStateIds.Contains(id.Value);
-        GD.Print($"[RinAnim] SetAnimation('{animationName}') id={id} cached={cached}");
-        if (id == null || !cached) return;
+        if (__instance?.BoundObject == null) return;
+        if (!SpineAnimStateCachePatch.RinStateIds.Contains(__instance.BoundObject.GetInstanceId())) return;
         if (Remap.TryGetValue(animationName, out string mapped))
             animationName = mapped;
+    }
+
+    public static void Postfix(MegaAnimationState __instance, ref string animationName, MegaTrackEntry __result)
+    {
+        if (__result == null || __instance?.BoundObject == null) return;
+        if (!SpineAnimStateCachePatch.RinStateIds.Contains(__instance.BoundObject.GetInstanceId())) return;
+        __result.SetTimeScale(FastAnims.Contains(animationName) ? FastSpeed : 1f);
     }
 }

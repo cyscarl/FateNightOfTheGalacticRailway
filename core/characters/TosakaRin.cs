@@ -17,6 +17,8 @@ public class TosakaRin : ModCharacterTemplate<RinCardPool, RinRelicPool, RinPoti
 
     public override string PlaceholderCharacterId => "ironclad";
     public override CharacterGender Gender => CharacterGender.Feminine;
+    /// <summary>No timeline/epoch story — prevents epoch lookup failures when saving progress after an act boss.</summary>
+    public override bool RequiresEpochAndTimeline => false;
     public override int StartingHp => 70;
     public override int StartingGold => 99;
     public override Color NameColor => Color;

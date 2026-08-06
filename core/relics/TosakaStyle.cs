@@ -84,9 +84,11 @@ public sealed class TosakaStyle : CustomRelicModel
     }
 
     /// <summary>
-    /// After each act boss, add a linked 3-choice of the special Boss relics
-    /// (FlySafely / Excalibur / EnumaElish / UnlimitedBladeWorks), excluding any
-    /// already owned. LinkedRewardSet gives the "pick one of three" behavior.
+    /// After each act boss, award 1 random special Boss relic not yet obtained
+    /// (FlySafely / Excalibur / EnumaElish / UnlimitedBladeWorks). Once all are
+    /// owned, no further relic reward appears.
+    /// (LinkedRewardSet pick-one was unreliable — the reward screen let the
+    /// player keep taking every option, so this uses a single RelicReward.)
     /// </summary>
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
@@ -98,16 +100,8 @@ public sealed class TosakaStyle : CustomRelicModel
         if (candidates.Count == 0) return false;
 
         var rng = player.PlayerRng.Rewards;
-        var offers = new List<Reward>();
-        while (offers.Count < 3 && candidates.Count > 0)
-        {
-            int idx = rng.NextInt(candidates.Count);
-            var type = candidates[idx];
-            candidates.RemoveAt(idx);
-            offers.Add(new RelicReward(CreateBossRelic(type), player));
-        }
-
-        rewards.Add(new LinkedRewardSet(offers, player));
+        var type = candidates[rng.NextInt(candidates.Count)];
+        rewards.Add(new RelicReward(CreateBossRelic(type), player));
         return true;
     }
 
@@ -115,7 +109,8 @@ public sealed class TosakaStyle : CustomRelicModel
     {
         var method = typeof(ModelDb).GetMethod(nameof(ModelDb.Relic))!
             .MakeGenericMethod(type);
-        return (RelicModel)method.Invoke(null, null)!;
+        // RelicReward requires a mutable instance (canonical throws), so clone it.
+        return ((RelicModel)method.Invoke(null, null)!).ToMutable();
     }
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)

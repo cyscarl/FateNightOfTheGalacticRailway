@@ -17,8 +17,11 @@ public class PowerAhaStrikeDamageUp : RinPower
 
     public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
+        // Return the ADDITIVE increment, not the modified total — the game
+        // does `num += returned` itself. Returning 0 for non-AhaStrike keeps
+        // all other attacks unaffected.
         if (cardSource is AhaStrike)
-            return amount + Amount;
-        return amount;
+            return Amount;
+        return 0m;
     }
 }

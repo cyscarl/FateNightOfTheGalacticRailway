@@ -24,6 +24,12 @@ public sealed class FlySafely : CustomRelicModel
     protected override string PackedIconOutlinePath => "FateNightOfTheGalacticRailway/images/relics/FlySafely_outline.png";
     protected override string BigIconPath => "FateNightOfTheGalacticRailway/images/relics/big/FlySafely.png";
 
+    public override Task BeforeCombatStartLate()
+    {
+        _cardsPlayed = 0;
+        return base.BeforeCombatStartLate();
+    }
+
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _cardsPlayed++;

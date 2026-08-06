@@ -22,6 +22,12 @@ public sealed class Excalibur : CustomRelicModel
     protected override string PackedIconOutlinePath => "FateNightOfTheGalacticRailway/images/relics/Excalibur_outline.png";
     protected override string BigIconPath => "FateNightOfTheGalacticRailway/images/relics/big/Excalibur.png";
 
+    public override Task BeforeCombatStartLate()
+    {
+        _cardsPlayed = 0;
+        return base.BeforeCombatStartLate();
+    }
+
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _cardsPlayed++;
