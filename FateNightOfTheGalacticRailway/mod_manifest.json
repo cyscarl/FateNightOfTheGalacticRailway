@@ -2,7 +2,7 @@
   "id": "FateNightOfTheGalacticRailway",
   "name": "FateNightOfTheGalacticRailway",
   "author": "cyscarl",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "min_game_version": "0.107.1",
   "description": "Tell me, are you my Master? A golden rain, a stolen Holy Grail—in the shadows beyond the reach of the illusory moon, you shall step into the battlefield of the False Holy Grail War alongside the magus from another world, Rin Tohsaka.\n\nDependencies: RitsuLib (STS2-RitsuLib) v0.4.27, BaseLib v3.4.0",
   "has_dll": true,

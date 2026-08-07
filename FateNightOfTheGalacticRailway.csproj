@@ -127,6 +127,14 @@
                 Condition="'$(GodotPath)' == '' or !Exists('$(GodotPath)')" />
     </Target>
 
+    <!-- Keep mod_manifest.json dependency info in sync with the resolved package
+         versions (RitsuLib / BaseLib) so the manifest tracks csproj updates. -->
+    <Target Name="UpdateModManifestDependencies" BeforeTargets="CopyToModsFolderOnBuild"
+            Condition="'$(IsInnerGodotExport)' != 'true' and Exists('$(MSBuildProjectDirectory)/scripts/update_mod_manifest.py') and Exists('$(ProjectAssetsFile)')">
+        <Message Text="Updating mod_manifest.json dependencies from resolved package versions." Importance="normal" />
+        <Exec Command="python &quot;$(MSBuildProjectDirectory)/scripts/update_mod_manifest.py&quot; &quot;$(ProjectAssetsFile)&quot; &quot;$(MSBuildProjectDirectory)/mod_manifest.json&quot; &quot;$(MSBuildProjectDirectory)/FateNightOfTheGalacticRailway/mod_manifest.json&quot;" />
+    </Target>
+
     <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
         <Message Text="Copying .dll and manifest to mods folder." Importance="high" />
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
