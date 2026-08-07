@@ -1,15 +1,15 @@
 {
   "id": "FateNightOfTheGalacticRailway",
   "name": "FateNightOfTheGalacticRailway",
-  "author": "User",
-  "description": "Fate/Night of the Galactic Railway - 远坂凛角色MOD",
-  "version": "v0.1.0",
+  "author": "cyscarl",
+  "version": "0.3.0",
   "min_game_version": "0.107.1",
-  "has_pck": true,
+  "description": "Tell me, are you my Master? A golden rain, a stolen Holy Grail—in the shadows beyond the reach of the illusory moon, you shall step into the battlefield of the False Holy Grail War alongside the magus from another world, Rin Tohsaka.\n\nDependencies: RitsuLib (STS2-RitsuLib) v0.4.27, BaseLib v3.4.0",
   "has_dll": true,
+  "has_pck": true,
+  "affects_gameplay": true,
   "dependencies": [
-    {"id": "BaseLib", "min_version": "3.3.0"},
-    {"id": "STS2-RitsuLib", "min_version": "0.4.27"}
-  ],
-  "affects_gameplay": true
+    {"id": "STS2-RitsuLib", "min_version": "0.4.27"},
+    {"id": "BaseLib", "min_version": "3.4.0"}
+  ]
 }
