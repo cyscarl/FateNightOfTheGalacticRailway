@@ -82,7 +82,7 @@
     <ItemGroup>
         <PackageReference Include="Alchyr.Sts2.BaseLib" Version="*" PrivateAssets="All" />
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*" />
-        <PackageReference Include="STS2.RitsuLib" Version="[0.4.27]" ExcludeAssets="runtime" Private="False" />
+        <PackageReference Include="STS2.RitsuLib" Version="[0.4.27,0.5.0)" ExcludeAssets="runtime" Private="False" />
         <PackageReference Include="STS2.ModAnalyzers.RitsuLib" Version="*" PrivateAssets="all" />
         <AdditionalFiles Include="FateNightOfTheGalacticRailway/localization/**/*.json"/>
     </ItemGroup>
