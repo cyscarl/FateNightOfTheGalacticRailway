@@ -7,6 +7,9 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Keywords;
+using FateNightOfTheGalacticRailway.Core;
+using FateNightOfTheGalacticRailway.Core.Cards.Projection;
 using FateNightOfTheGalacticRailway.Core.Characters;
 
 namespace FateNightOfTheGalacticRailway.Core.Cards;
@@ -22,7 +25,12 @@ public class FantasyCollapse : CustomCardModel
     {
     }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Innate };
+    // 固有 + 投影 — carries 投影 so the keyword in the effect text is hoverable.
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
+    {
+        CardKeyword.Innate,
+        ProjectionKeywords.Projection.GetModCardKeyword()
+    };
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
@@ -45,8 +53,10 @@ public class FantasyCollapse : CustomCardModel
     }
 
     /// <summary>
-    /// While this card is in hand, if any card with Ethereal or Exhaust is played,
-    /// set this card's cost to 0 until played.
+    /// While this card is in hand, if any actual projection card (伪卡) is played, set
+    /// this card's cost to 0 until played. We check the projection card TYPE rather than
+    /// the 投影 keyword — cards like 投影，开始 carry the keyword in their text for the
+    /// hover tip but are not themselves projection cards.
     /// </summary>
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -55,8 +65,7 @@ public class FantasyCollapse : CustomCardModel
         if (cardPlay.Card.Owner != Owner) return;
         if (cardPlay.Card == this) return;
 
-        if (cardPlay.Card.Keywords.Contains(CardKeyword.Ethereal)
-            || cardPlay.Card.Keywords.Contains(CardKeyword.Exhaust))
+        if (cardPlay.Card is ProjectionCardBase)
         {
             EnergyCost.SetUntilPlayed(0);
         }

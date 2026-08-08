@@ -8,13 +8,15 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
+using FateNightOfTheGalacticRailway.Core.Cards.Projection;
 using FateNightOfTheGalacticRailway.Core.Characters;
 
 namespace FateNightOfTheGalacticRailway.Core.Cards;
 
 /// <summary>
-/// 心眼（真） — Create copies of 2 random cards from deck and trigger their effects.
-/// Originals stay where they are.
+/// 心眼（真） — Randomly trigger the effects of 2 cards in your deck by auto-playing
+/// their corresponding "（伪）" projection cards (no cost, ignores play conditions).
+/// Originals stay in place.
 /// </summary>
 [Pool(typeof(RinCardPool))]
 public class TrueEye : CustomCardModel
@@ -31,24 +33,27 @@ public class TrueEye : CustomCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner == null) return;
+        if (Owner == null || CombatState == null) return;
 
-        var allCards = CardPile.GetCards(Owner, PileType.Draw, PileType.Hand, PileType.Discard)
+        // Cards in the deck (draw + discard piles).
+        var deck = CardPile.GetCards(Owner, PileType.Draw, PileType.Discard)
             .Where(c => c != this)
             .ToList();
-
-        if (allCards.Count == 0) return;
+        if (deck.Count == 0) return;
 
         var rng = Owner.RunState.Rng.CombatCardSelection;
-        int count = Math.Min(2, allCards.Count);
+        int count = Math.Min(2, deck.Count);
         for (int i = 0; i < count; i++)
         {
-            var idx = rng.NextInt(allCards.Count);
-            var card = allCards[idx];
-            allCards.RemoveAt(idx);
-            // Create a dupe and auto-play it — original stays in place
-            var dupe = card.CreateDupe();
-            await CardCmd.AutoPlay(choiceContext, dupe, null);
+            int idx = rng.NextInt(deck.Count);
+            var original = deck[idx];
+            deck.RemoveAt(idx);
+
+            // Auto-play the projection card — triggers its effect at no cost,
+            // ignoring conditions. Playing a projection (e.g. 伪幻想崩坏) still fires
+            // AfterCardPlayed, so 幻想崩坏's cost-reduction triggers normally.
+            var projection = ProjectionUtil.CreateProjectionCard(original, CombatState, Owner);
+            await CardCmd.AutoPlay(choiceContext, projection, null);
         }
     }
 

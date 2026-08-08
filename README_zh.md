@@ -36,10 +36,10 @@
 ### 手动安装
 
 1. 从 [Releases](https://github.com/cyscarl/FateNightOfTheGalacticRailway/releases) 下载最新版本。
-2. 将 `FateNightOfTheGalacticRailway` 文件夹解压到 Slay the Spire 2 的 mods 目录`<STS2 install dir>/mods/FateNightOfTheGalacticRailway/`)：
-   - FateNightOfTheGalacticRailway.dll
-   - FateNightOfTheGalacticRailway.pck
-   - mod_manifest.json
+2. 将 `FateNightOfTheGalacticRailway` 文件夹解压到 Slay the Spire 2 的 mods 目录（`<STS2 install dir>/mods/FateNightOfTheGalacticRailway/`）：
+   - `FateNightOfTheGalacticRailway.dll`
+   - `FateNightOfTheGalacticRailway.pck`
+   - `mod_manifest.json`
 3. 确保 `STS2-RitsuLib` 和 `BaseLib` 也安装在 mods 目录中。
 4. 启动游戏，在角色选择界面选择远坂凛。
 

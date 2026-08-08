@@ -36,10 +36,10 @@ A young magus from a world beyond the stars, where magic and mystery still thriv
 ### Manual Installation
 
 1. Download the latest release from [Releases](https://github.com/cyscarl/FateNightOfTheGalacticRailway/releases).
-2. Extract the `FateNightOfTheGalacticRailway` folder into your Slay the Spire 2 mods directory `<STS2 install dir>/mods/FateNightOfTheGalacticRailway/`):
-   - FateNightOfTheGalacticRailway.dll
-   - FateNightOfTheGalacticRailway.pck
-   - mod_manifest.json
+2. Extract the `FateNightOfTheGalacticRailway` folder into your Slay the Spire 2 mods directory （`<STS2 install dir>/mods/FateNightOfTheGalacticRailway/`):
+   - `FateNightOfTheGalacticRailway.dll`
+   - `FateNightOfTheGalacticRailway.pck`
+   - `mod_manifest.json`
 3. Ensure `STS2-RitsuLib` and `BaseLib` are also installed in the mods directory.
 4. Launch the game and select Tohsaka Rin from the character select screen.
 
