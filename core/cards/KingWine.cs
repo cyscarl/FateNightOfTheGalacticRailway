@@ -53,5 +53,8 @@ public class KingWine : CustomCardModel
         await PotionCmd.TryToProcure(potion, Owner);
     }
 
-    protected override void OnUpgrade() { }
+    protected override void OnUpgrade()
+    {
+        EnergyCost.UpgradeBy(-1);
+    }
 }

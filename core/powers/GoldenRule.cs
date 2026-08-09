@@ -31,6 +31,9 @@ public class GoldenRule : RinPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.None;
 
+    // Multiple sources can coexist and trigger/expire together.
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (Owner == null) return;
@@ -39,7 +42,9 @@ public class GoldenRule : RinPower
         // Don't count the card that granted this power — its own play (or a
         // projected copy of it) doesn't generate a treasure, only later cards do.
         if (cardPlay.Card is GoldenRuleCard or ProjectionGoldenRule) return;
-        await KingTreasure.AddToHand(player);
+        // Each layer generates one King's Treasure (upgraded card grants 2 layers).
+        for (int i = 0; i < Amount; i++)
+            await KingTreasure.AddToHand(player);
     }
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)

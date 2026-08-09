@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
@@ -19,9 +20,13 @@ public class ProjectionAhaSweep : ProjectionCardBase
 {
     public ProjectionAhaSweep() : base(CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies) { }
 
+    // 阿哈打击！ referenced in the description — show a card preview on hover.
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        new[] { HoverTipFactory.FromCard<AhaStrike>() };
+
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(3m, ValueProp.Move)
+        new DamageVar(1m, ValueProp.Move)
     };
     public override string PortraitPath => "AhaSweep.png".CardPortraitPath();
     public override string CustomPortraitPath => "AhaSweep.png".BigCardPortraitPath();
@@ -33,16 +38,12 @@ public class ProjectionAhaSweep : ProjectionCardBase
             .TargetingAllOpponents(base.CombatState!)
             .Execute(choiceContext);
 
-        // Create 2 Exhausting AhaStrike copies
-        for (int i = 0; i < 2; i++)
-        {
-            var strike = base.CombatState!.CreateCard<AhaStrike>(Owner);
-            strike.AddKeyword(CardKeyword.Exhaust);
-            await CardPileCmd.AddGeneratedCardToCombat(strike, PileType.Hand, Owner);
-        }
+        // Create 1 Exhausting AhaStrike copy
+        var strike = base.CombatState!.CreateCard<AhaStrike>(Owner);
+        strike.AddKeyword(CardKeyword.Exhaust);
+        await CardPileCmd.AddGeneratedCardToCombat(strike, PileType.Hand, Owner);
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

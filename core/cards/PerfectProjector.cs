@@ -42,5 +42,8 @@ public class PerfectProjector : CustomCardModel
         await CardCmd.AutoPlay(choiceContext, dupe, null);
     }
 
-    protected override void OnUpgrade() { }
+    protected override void OnUpgrade()
+    {
+        AddKeyword(CardKeyword.Retain);
+    }
 }

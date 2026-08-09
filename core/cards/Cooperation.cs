@@ -33,7 +33,7 @@ public class Cooperation : CustomCardModel
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target).Execute(choiceContext);
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.NextTurnEnergyPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.NextTurnEnergyPower>(choiceContext, Owner.Creature, IsUpgraded ? 2m : 1m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

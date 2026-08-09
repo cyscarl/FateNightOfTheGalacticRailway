@@ -37,15 +37,19 @@ public class ProjectionKingWine : ProjectionCardBase
     {
         if (Owner == null) return;
         var rng = Owner.RunState.Rng.CombatPotionGeneration;
-        var type = GemPotions[rng.NextInt(GemPotions.Length)];
-        PotionModel potion;
-        if (type == typeof(EnergyGemPotion)) potion = ModelDb.Potion<EnergyGemPotion>().ToMutable();
-        else if (type == typeof(PioneerGemPotion)) potion = ModelDb.Potion<PioneerGemPotion>().ToMutable();
-        else if (type == typeof(TreasureGemPotion)) potion = ModelDb.Potion<TreasureGemPotion>().ToMutable();
-        else if (type == typeof(ProjectionGemPotion)) potion = ModelDb.Potion<ProjectionGemPotion>().ToMutable();
-        else potion = ModelDb.Potion<ExcaliburGemPotion>().ToMutable();
+        // 50% chance to obtain a random special gem potion.
+        if (rng.NextDouble() < 0.5)
+        {
+            var type = GemPotions[rng.NextInt(GemPotions.Length)];
+            PotionModel potion;
+            if (type == typeof(EnergyGemPotion)) potion = ModelDb.Potion<EnergyGemPotion>().ToMutable();
+            else if (type == typeof(PioneerGemPotion)) potion = ModelDb.Potion<PioneerGemPotion>().ToMutable();
+            else if (type == typeof(TreasureGemPotion)) potion = ModelDb.Potion<TreasureGemPotion>().ToMutable();
+            else if (type == typeof(ProjectionGemPotion)) potion = ModelDb.Potion<ProjectionGemPotion>().ToMutable();
+            else potion = ModelDb.Potion<ExcaliburGemPotion>().ToMutable();
 
-        await PotionCmd.TryToProcure(potion, Owner);
+            await PotionCmd.TryToProcure(potion, Owner);
+        }
     }
     protected override void OnUpgrade() { }
 }

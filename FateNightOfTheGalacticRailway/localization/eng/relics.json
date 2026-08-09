@@ -1,17 +1,17 @@
 {
   "FATENIGHTOFTHEGALACTICRAILWAY-TOSAKA_STYLE.title": "Tosaka Style",
-  "FATENIGHTOFTHEGALACTICRAILWAY-TOSAKA_STYLE.description": "+3 Potion slots. At combat start, generate 2 random Magic Gem potions.",
+  "FATENIGHTOFTHEGALACTICRAILWAY-TOSAKA_STYLE.description": "At combat start, generate 1 random Magic Gem potion.",
   "FATENIGHTOFTHEGALACTICRAILWAY-TOSAKA_STYLE.flavor": "The Tosaka family heirloom gem pendant.",
   "FATENIGHTOFTHEGALACTICRAILWAY-FLY_SAFELY.title": "Fly Safely, Pioneer Forever!",
-  "FATENIGHTOFTHEGALACTICRAILWAY-FLY_SAFELY.description": "Every 10 cards played, Aha! Strike! damage +1 this combat.",
+  "FATENIGHTOFTHEGALACTICRAILWAY-FLY_SAFELY.description": "Every 5 cards played, [gold]Aha! Strike![/gold] damage +1 this combat.",
   "FATENIGHTOFTHEGALACTICRAILWAY-FLY_SAFELY.flavor": "",
   "FATENIGHTOFTHEGALACTICRAILWAY-ENUMA_ELISH.title": "Enuma Elish: The Star of Creation",
-  "FATENIGHTOFTHEGALACTICRAILWAY-ENUMA_ELISH.description": "Every extra card drawn each turn, create a King's Treasure.",
+  "FATENIGHTOFTHEGALACTICRAILWAY-ENUMA_ELISH.description": "Every extra card drawn each turn, create a [gold]King's Treasure![/gold].",
   "FATENIGHTOFTHEGALACTICRAILWAY-ENUMA_ELISH.flavor": "",
   "FATENIGHTOFTHEGALACTICRAILWAY-EXCALIBUR.title": "Excalibur: Sword of Promised Victory",
   "FATENIGHTOFTHEGALACTICRAILWAY-EXCALIBUR.description": "Every 8 cards played, gain 1 Energy.",
   "FATENIGHTOFTHEGALACTICRAILWAY-EXCALIBUR.flavor": "",
   "FATENIGHTOFTHEGALACTICRAILWAY-UNLIMITED_BLADE_WORKS.title": "Unlimited Blade Works",
-  "FATENIGHTOFTHEGALACTICRAILWAY-UNLIMITED_BLADE_WORKS.description": "Project the first 2 original cards played each turn. Projection cards don't count or trigger.",
+  "FATENIGHTOFTHEGALACTICRAILWAY-UNLIMITED_BLADE_WORKS.description": "Project the first 2 original cards played each turn. [gold]Projection[/gold] cards don't count or trigger.",
   "FATENIGHTOFTHEGALACTICRAILWAY-UNLIMITED_BLADE_WORKS.flavor": ""
 }

@@ -29,7 +29,7 @@ public class ExcaliburGemPotion : GemPotion
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(15m, ValueProp.Unpowered)
+        new DamageVar(10m, ValueProp.Unpowered)
     };
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)

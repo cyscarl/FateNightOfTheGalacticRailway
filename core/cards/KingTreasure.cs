@@ -12,6 +12,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Cards;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -60,7 +61,9 @@ public class KingTreasure : CustomCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(BaseDamage);
+        // Upgrade makes this card cost 0 (damage unchanged). Upgraded and
+        // un-upgraded copies still merge — the survivor becomes upgraded.
+        EnergyCost.UpgradeBy(-1);
     }
 
     private static ulong _lastMergeForgeTicks;
@@ -131,6 +134,10 @@ public class KingTreasure : CustomCardModel
 
         var existing = hand.Cards.OfType<KingTreasure>().FirstOrDefault(t => t != this);
         if (existing == null) return;
+
+        // Merged survivor becomes the upgraded version if either copy was upgraded.
+        if (IsUpgraded && !existing.IsUpgraded)
+            CardCmd.Upgrade(existing, CardPreviewStyle.None);
 
         // Damage = sum of both cards.
         existing.DynamicVars.Damage.UpgradeValueBy(DynamicVars.Damage.BaseValue);

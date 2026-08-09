@@ -29,16 +29,16 @@ public class PassTheParcel : CustomCardModel
     public override string CustomPortraitPath => "PassTheParcel.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "PassTheParcel.png".CardPortraitPath();
 
-    private decimal _hitCount = 3m;
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.PassTheParcel>(choiceContext, cardPlay.Target, _hitCount, Owner.Creature, this);
+        // One independent 3-hit counter per source. If a debuff-doubling relic (不安之灯)
+        // triggers, ApplyMark splits it into two independent counters instead of one bigger one.
+        await FateNightOfTheGalacticRailway.Core.Powers.PassTheParcel.ApplyMark(
+            choiceContext, cardPlay.Target, Owner.Creature, this, IsUpgraded ? 12m : 9m);
     }
 
     protected override void OnUpgrade()
     {
-        _hitCount = 2m;
     }
 }

@@ -17,7 +17,7 @@ namespace FateNightOfTheGalacticRailway.Core.Cards;
 [Pool(typeof(RinCardPool))]
 public class RinsPendantProjection : CustomCardModel
 {
-    public RinsPendantProjection() : base(0, CardType.Skill, CardRarity.Rare, TargetType.None)
+    public RinsPendantProjection() : base(1, CardType.Skill, CardRarity.Rare, TargetType.None)
     {
     }
 
@@ -27,17 +27,15 @@ public class RinsPendantProjection : CustomCardModel
     public override string CustomPortraitPath => "RinsPendantProjection.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "RinsPendantProjection.png".CardPortraitPath();
 
-    private decimal _drawCount = 1m;
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var drawn = await CardPileCmd.Draw(choiceContext, _drawCount, Owner);
+        var drawn = await CardPileCmd.Draw(choiceContext, 1m, Owner);
         foreach (var card in drawn)
             card.EnergyCost.SetUntilPlayed(0);
     }
 
     protected override void OnUpgrade()
     {
-        _drawCount = 2m;
+        EnergyCost.UpgradeBy(-1);
     }
 }

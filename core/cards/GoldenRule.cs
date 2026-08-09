@@ -4,6 +4,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
@@ -20,6 +21,9 @@ public class GoldenRule : CustomCardModel
     {
     }
 
+    // 王之财宝！ referenced in the description — show a card preview on hover.
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        new[] { HoverTipFactory.FromCard<KingTreasure>() };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Retain };
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
@@ -33,7 +37,9 @@ public class GoldenRule : CustomCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.GoldenRule>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        // GoldenRule is a Buff — vanilla debuff-doubling relics (不安之灯) don't affect it,
+        // so no amount override is needed here.
+        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.GoldenRule>(choiceContext, Owner.Creature, IsUpgraded ? 2m : 1m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

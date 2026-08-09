@@ -64,6 +64,6 @@ public class ManaBurst : CustomCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(10m);
+        base.DynamicVars.Damage.UpgradeValueBy(15m);
     }
 }

@@ -23,13 +23,15 @@ public class GoldenSlash2 : GoldenSlashBase
         new DamageVar(4m, ValueProp.Move)
     };
 
+    private int _hitCount = 2;
+
     public override string PortraitPath => "GoldenSlash2.png".CardPortraitPath();
     public override string CustomPortraitPath => "GoldenSlash2.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "GoldenSlash2.png".CardPortraitPath();
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < _hitCount; i++)
         {
             await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
                 .FromCard(this)
@@ -42,6 +44,6 @@ public class GoldenSlash2 : GoldenSlashBase
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(2m);
+        _hitCount = 3;
     }
 }

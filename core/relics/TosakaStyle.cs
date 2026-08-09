@@ -21,7 +21,7 @@ using FateNightOfTheGalacticRailway.Core.Potions;
 namespace FateNightOfTheGalacticRailway.Core.Relics;
 
 /// <summary>
-/// 远坂流 — +3 potion slots (applied once on obtain). Each combat, generate 2 random gem potions.
+/// 远坂流 — No extra potion slots. Each combat, generate 1 random gem potion.
 /// Also manages GoldenSlash counter resets.
 /// </summary>
 [Pool(typeof(RinRelicPool))]
@@ -57,14 +57,6 @@ public sealed class TosakaStyle : CustomRelicModel
         "FateNightOfTheGalacticRailway/images/relics/TosakaStyle_outline.png";
     protected override string BigIconPath =>
         "FateNightOfTheGalacticRailway/images/relics/big/TosakaStyle.png";
-
-    public override Task AfterObtained()
-    {
-        // Only add slots if not already increased (safety against save/load re-fire)
-        if (Owner != null && Owner.MaxPotionCount <= 3)
-            PlayerCmd.GainMaxPotionCount(3, Owner);
-        return base.AfterObtained();
-    }
 
     public override Task BeforeCombatStartLate()
     {
@@ -121,7 +113,7 @@ public sealed class TosakaStyle : CustomRelicModel
         _potionsGeneratedThisCombat = true;
 
         var rng = Owner.RunState.Rng.CombatPotionGeneration;
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
         {
             var typeIdx = rng.NextInt(GemPotionTypes.Length);
             var type = GemPotionTypes[typeIdx];

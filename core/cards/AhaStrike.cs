@@ -22,7 +22,7 @@ public class AhaStrike : CustomCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(3m, ValueProp.Move)
+        new DamageVar(4m, ValueProp.Move)
     };
 
     public override string PortraitPath => "AhaStrike.png".CardPortraitPath();
@@ -40,6 +40,6 @@ public class AhaStrike : CustomCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
+        base.DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
-using FateNightOfTheGalacticRailway.Core.Cards;
 
 namespace FateNightOfTheGalacticRailway.Core.Cards.Projection;
 
@@ -26,26 +25,8 @@ public class ProjectionFriendshipProof : ProjectionCardBase
     public override string BetaPortraitPath => "FriendshipProof.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner == null) return;
-
-        var rng = Owner.RunState.Rng.CombatCardSelection;
-
-        while (rng.NextDouble() < 0.5) // heads — keep going
-        {
-            int roll = rng.NextInt(3);
-            switch (roll)
-            {
-                case 0:
-                    await CardPileCmd.Draw(choiceContext, 1m, Owner);
-                    break;
-                case 1:
-                    await PlayerCmd.GainEnergy(1m, Owner);
-                    break;
-                case 2:
-                    await CreatureCmd.GainBlock(Owner.Creature, 5m, ValueProp.Unpowered, null);
-                    break;
-            }
-        }
+        // Simplified: just draw 1 card (no coin-flip loop).
+        await CardPileCmd.Draw(choiceContext, 1m, Owner);
     }
     protected override void OnUpgrade()
     {

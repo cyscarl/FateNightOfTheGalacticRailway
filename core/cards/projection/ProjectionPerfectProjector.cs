@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
 using FateNightOfTheGalacticRailway.Core.Cards;
@@ -34,7 +35,19 @@ public class ProjectionPerfectProjector : ProjectionCardBase
                              && e.HappenedThisTurn(CombatState));
         if (prev == null) return;
 
-        var dupe = prev.CardPlay.Card.CreateDupe();
+        var prevCard = prev.CardPlay.Card;
+        CardModel dupe;
+        if (prevCard is ProjectionCardBase)
+        {
+            // Previous card is already a projection — copy its effect directly.
+            dupe = prevCard.CreateDupe();
+        }
+        else
+        {
+            // Copy the projection version of the original card's effect.
+            dupe = ProjectionUtil.CreateProjectionCard(prevCard, CombatState, Owner);
+        }
+
         await CardCmd.AutoPlay(choiceContext, dupe, null);
     }
     protected override void OnUpgrade() { }

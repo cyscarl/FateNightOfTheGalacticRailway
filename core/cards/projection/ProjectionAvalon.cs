@@ -25,14 +25,12 @@ public class ProjectionAvalon : ProjectionCardBase
     public override string PortraitPath => "Avalon.png".CardPortraitPath();
     public override string CustomPortraitPath => "Avalon.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "Avalon.png".CardPortraitPath();
-    private decimal _initialHeal = 15m;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, _initialHeal);
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.AvalonRegen>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        // Pure heal — no regen power is granted.
+        await CreatureCmd.Heal(Owner.Creature, 10m);
     }
     protected override void OnUpgrade()
     {
-        _initialHeal = 20m;
     }
 }

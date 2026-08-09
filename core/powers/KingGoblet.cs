@@ -18,8 +18,10 @@ public class KingGoblet : RinPower
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (player.Creature != Owner) return;
-        await PlayerCmd.GainEnergy(2m, player);
-        await CardPileCmd.Draw(choiceContext, 2m, player);
+        // Amount controls both energy and draw: base card grants 2, upgrade 3,
+        // projection 1. Multiple sources stack onto the same instance.
+        await PlayerCmd.GainEnergy(Amount, player);
+        await CardPileCmd.Draw(choiceContext, Amount, player);
         await PowerCmd.Remove(this);
     }
 }

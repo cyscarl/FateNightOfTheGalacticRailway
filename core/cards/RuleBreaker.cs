@@ -37,11 +37,11 @@ public class RuleBreaker : CustomCardModel
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        await PowerCmd.Apply<Powers.RuleBreakerMark>(choiceContext, cardPlay.Target, 3m, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.RuleBreakerMark>(choiceContext, cardPlay.Target, IsUpgraded ? 4m : 3m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
+        base.DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

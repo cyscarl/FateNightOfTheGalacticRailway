@@ -27,7 +27,7 @@ public class ProjectionEpicClayTablet : ProjectionCardBase
     public override string BetaPortraitPath => "EpicClayTablet.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CardPileCmd.Draw(choiceContext, 2m, Owner, false);
+        await CardPileCmd.Draw(choiceContext, 1m, Owner, false);
     }
     protected override void OnUpgrade()
     {

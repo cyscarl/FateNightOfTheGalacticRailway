@@ -27,14 +27,19 @@ public class DivineCreation : CustomCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[] { };
 
+    private decimal _healAmount = 3m;
+
     public override string PortraitPath => "DivineCreation.png".CardPortraitPath();
     public override string CustomPortraitPath => "DivineCreation.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "DivineCreation.png".CardPortraitPath();
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, 3m);
+        await CreatureCmd.Heal(Owner.Creature, _healAmount);
     }
 
-    protected override void OnUpgrade() { }
+    protected override void OnUpgrade()
+    {
+        _healAmount = 5m;
+    }
 }

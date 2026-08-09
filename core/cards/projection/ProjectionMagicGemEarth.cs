@@ -20,7 +20,7 @@ public class ProjectionMagicGemEarth : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new BlockVar(10m, ValueProp.Move)
+        new BlockVar(5m, ValueProp.Move)
     };
     public override string PortraitPath => "MagicGemEarth.png".CardPortraitPath();
     public override string CustomPortraitPath => "MagicGemEarth.png".BigCardPortraitPath();
@@ -31,6 +31,5 @@ public class ProjectionMagicGemEarth : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

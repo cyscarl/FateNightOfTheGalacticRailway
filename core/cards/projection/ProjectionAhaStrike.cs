@@ -20,7 +20,7 @@ public class ProjectionAhaStrike : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(3m, ValueProp.Move)
+        new DamageVar(2m, ValueProp.Move)
     };
     public override string PortraitPath => "AhaStrike.png".CardPortraitPath();
     public override string CustomPortraitPath => "AhaStrike.png".BigCardPortraitPath();
@@ -35,6 +35,5 @@ public class ProjectionAhaStrike : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

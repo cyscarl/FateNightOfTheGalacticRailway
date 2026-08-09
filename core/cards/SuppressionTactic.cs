@@ -39,11 +39,11 @@ public class SuppressionTactic : CustomCardModel
             .Execute(choiceContext);
 
         foreach (var enemy in state.HittableEnemies)
-            await PowerCmd.Apply<WeakPower>(choiceContext, enemy, 1m, Owner.Creature, this);
+            await PowerCmd.Apply<WeakPower>(choiceContext, enemy, IsUpgraded ? 2m : 1m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(2m);
+        base.DynamicVars.Damage.UpgradeValueBy(1m);
     }
 }

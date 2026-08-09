@@ -36,5 +36,6 @@ public class RejuvenationSpecial : CustomCardModel
 
     protected override void OnUpgrade()
     {
+        EnergyCost.UpgradeBy(-1);
     }
 }

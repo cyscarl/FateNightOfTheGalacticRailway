@@ -27,7 +27,8 @@ public class ProjectionRejuvenationSpecial : ProjectionCardBase
     public override string BetaPortraitPath => "RejuvenationSpecial.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.ExtraTurn>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        // Next turn, gain 2 Energy (instead of an extra turn).
+        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.NextTurnEnergyPower>(choiceContext, Owner.Creature, 2m, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {

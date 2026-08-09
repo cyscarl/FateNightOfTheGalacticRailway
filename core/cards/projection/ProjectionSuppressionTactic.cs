@@ -21,24 +21,18 @@ public class ProjectionSuppressionTactic : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(3m, ValueProp.Move)
     };
     public override string PortraitPath => "SuppressionTactic.png".CardPortraitPath();
     public override string CustomPortraitPath => "SuppressionTactic.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "SuppressionTactic.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        // No damage — only applies 1 Weak to all enemies.
         var state = base.CombatState!;
-        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
-            .TargetingAllOpponents(state)
-            .Execute(choiceContext);
-
         foreach (var enemy in state.HittableEnemies)
             await PowerCmd.Apply<WeakPower>(choiceContext, enemy, 1m, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

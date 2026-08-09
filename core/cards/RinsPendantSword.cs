@@ -17,7 +17,7 @@ namespace FateNightOfTheGalacticRailway.Core.Cards;
 [Pool(typeof(RinCardPool))]
 public class RinsPendantSword : CustomCardModel
 {
-    public RinsPendantSword() : base(0, CardType.Skill, CardRarity.Rare, TargetType.None)
+    public RinsPendantSword() : base(1, CardType.Skill, CardRarity.Rare, TargetType.None)
     {
     }
 
@@ -27,16 +27,14 @@ public class RinsPendantSword : CustomCardModel
     public override string CustomPortraitPath => "RinsPendantSword.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "RinsPendantSword.png".CardPortraitPath();
 
-    private decimal _freeCount = 3m;
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<NextGoldenSlashFreePower>(
-            choiceContext, Owner.Creature, _freeCount, Owner.Creature, this);
+            choiceContext, Owner.Creature, 3m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        _freeCount = 4m;
+        EnergyCost.UpgradeBy(-1);
     }
 }

@@ -52,7 +52,16 @@ public class WhyAreYouHere : RinPower
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (player.Creature != Owner) return;
+        await GenerateRewardCard(choiceContext, player);
+    }
 
+    /// <summary>
+    /// Add the reward card for the current level to the player's hand. Used at turn
+    /// start, and when a duplicate WhyAreYouHere card is played (the power is unique,
+    /// so re-applying triggers the reward instead of stacking).
+    /// </summary>
+    public async Task GenerateRewardCard(PlayerChoiceContext choiceContext, Player player)
+    {
         var state = Owner?.CombatState;
         if (state == null) return;
 

@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
-using FateNightOfTheGalacticRailway.Core.Cards;
 
 namespace FateNightOfTheGalacticRailway.Core.Cards.Projection;
 
@@ -20,8 +19,8 @@ public class ProjectionFullAttack : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(6m, ValueProp.Move),
-        new BlockVar(5m, ValueProp.Move)
+        new DamageVar(3m, ValueProp.Move),
+        new BlockVar(3m, ValueProp.Move)
     };
     public override string PortraitPath => "FullAttack.png".CardPortraitPath();
     public override string CustomPortraitPath => "FullAttack.png".BigCardPortraitPath();
@@ -38,7 +37,5 @@ public class ProjectionFullAttack : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
-        base.DynamicVars.Block.UpgradeValueBy(2m);
     }
 }

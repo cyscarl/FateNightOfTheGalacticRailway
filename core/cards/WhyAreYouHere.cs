@@ -31,10 +31,24 @@ public class WhyAreYouHere : CustomCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.WhyAreYouHere>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        var existing = Owner.Creature.GetPower<FateNightOfTheGalacticRailway.Core.Powers.WhyAreYouHere>();
+        if (existing != null)
+        {
+            // The power is unique per character — re-applying it instead triggers the
+            // current-level turn-start reward (no stacking).
+            await existing.GenerateRewardCard(choiceContext, Owner);
+        }
+        else
+        {
+            var power = await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.WhyAreYouHere>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+            // Start the card-play counter at 0 — this card's own play is not counted.
+            if (power != null)
+                power.SetAmount(0);
+        }
     }
 
     protected override void OnUpgrade()
     {
+        AddKeyword(CardKeyword.Innate);
     }
 }

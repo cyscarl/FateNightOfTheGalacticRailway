@@ -36,6 +36,6 @@ public class MagicGemEarth : CustomCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Block.UpgradeValueBy(3m);
+        base.DynamicVars.Block.UpgradeValueBy(4m);
     }
 }

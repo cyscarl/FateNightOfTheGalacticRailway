@@ -39,6 +39,6 @@ public class GoldenSlash3 : GoldenSlashBase
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
+        base.DynamicVars.Damage.UpgradeValueBy(1m);
     }
 }

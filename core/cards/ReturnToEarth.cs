@@ -28,16 +28,23 @@ public class ReturnToEarth : CustomCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[] { };
 
+    private decimal _healAmount = 3m;
+    private decimal _drawCount = 1m;
+
     public override string PortraitPath => "ReturnToEarth.png".CardPortraitPath();
     public override string CustomPortraitPath => "ReturnToEarth.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "ReturnToEarth.png".CardPortraitPath();
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, 3m);
-        await CardPileCmd.Draw(choiceContext, 1m, Owner);
+        await CreatureCmd.Heal(Owner.Creature, _healAmount);
+        await CardPileCmd.Draw(choiceContext, _drawCount, Owner);
         await PlayerCmd.GainEnergy(1m, Owner);
     }
 
-    protected override void OnUpgrade() { }
+    protected override void OnUpgrade()
+    {
+        _healAmount = 5m;
+        _drawCount = 2m;
+    }
 }

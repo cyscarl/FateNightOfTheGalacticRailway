@@ -23,9 +23,9 @@ public class ProjectionReturnToEarth : ProjectionCardBase
     public override string BetaPortraitPath => "ReturnToEarth.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, 3m);
+        // Heal 2 + draw 1 — no energy gain.
+        await CreatureCmd.Heal(Owner.Creature, 2m);
         await CardPileCmd.Draw(choiceContext, 1m, Owner);
-        await PlayerCmd.GainEnergy(1m, Owner);
     }
     protected override void OnUpgrade() { }
 }

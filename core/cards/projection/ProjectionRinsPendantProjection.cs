@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
@@ -23,15 +22,12 @@ public class ProjectionRinsPendantProjection : ProjectionCardBase
     public override string PortraitPath => "RinsPendantProjection.png".CardPortraitPath();
     public override string CustomPortraitPath => "RinsPendantProjection.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "RinsPendantProjection.png".CardPortraitPath();
-    private decimal _drawCount = 1m;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var drawn = await CardPileCmd.Draw(choiceContext, _drawCount, Owner);
-        foreach (var card in drawn)
-            card.EnergyCost.SetUntilPlayed(0);
+        // Draw 1 — the drawn card is not made free.
+        await CardPileCmd.Draw(choiceContext, 1m, Owner);
     }
     protected override void OnUpgrade()
     {
-        _drawCount = 2m;
     }
 }

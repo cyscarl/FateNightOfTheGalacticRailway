@@ -20,7 +20,7 @@ public class ProjectionRinDefend : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new BlockVar(5m, ValueProp.Move)
+        new BlockVar(3m, ValueProp.Move)
     };
     public override string PortraitPath => "RinDefend.png".CardPortraitPath();
     public override string CustomPortraitPath => "RinDefend.png".BigCardPortraitPath();
@@ -31,6 +31,5 @@ public class ProjectionRinDefend : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

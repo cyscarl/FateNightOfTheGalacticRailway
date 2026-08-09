@@ -20,7 +20,7 @@ public class ProjectionMagicGemVoid : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(3m, ValueProp.Move)
+        new DamageVar(2m, ValueProp.Move)
     };
     public override string PortraitPath => "MagicGemVoid.png".CardPortraitPath();
     public override string CustomPortraitPath => "MagicGemVoid.png".BigCardPortraitPath();
@@ -34,6 +34,5 @@ public class ProjectionMagicGemVoid : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

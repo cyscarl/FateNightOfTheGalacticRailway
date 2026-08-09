@@ -58,6 +58,6 @@ public class GaeBolg : CustomCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(4m);
+        base.DynamicVars.Damage.UpgradeValueBy(6m);
     }
 }

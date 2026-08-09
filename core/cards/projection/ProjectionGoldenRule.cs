@@ -4,6 +4,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
@@ -18,6 +19,10 @@ public class ProjectionGoldenRule : ProjectionCardBase
 {
     public ProjectionGoldenRule() : base(CardType.Skill, CardRarity.Common, TargetType.None) { }
 
+    // 王之财宝！ referenced in the description — show a card preview on hover.
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        new[] { HoverTipFactory.FromCard<KingTreasure>() };
+
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
         // No canonical vars
@@ -27,7 +32,9 @@ public class ProjectionGoldenRule : ProjectionCardBase
     public override string BetaPortraitPath => "GoldenRule.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.GoldenRule>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        if (Owner == null) return;
+        // Directly creates 1 King's Treasure — no persistent power is granted.
+        await KingTreasure.AddToHand(Owner);
     }
     protected override void OnUpgrade()
     {

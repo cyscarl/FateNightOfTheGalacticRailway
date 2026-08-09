@@ -25,16 +25,19 @@ public class EpicClayTablet : CustomCardModel
         // No canonical vars
     };
 
+    private decimal _drawCount = 2m;
+
     public override string PortraitPath => "EpicClayTablet.png".CardPortraitPath();
     public override string CustomPortraitPath => "EpicClayTablet.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "EpicClayTablet.png".CardPortraitPath();
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CardPileCmd.Draw(choiceContext, 2m, Owner, false);
+        await CardPileCmd.Draw(choiceContext, _drawCount, Owner, false);
     }
 
     protected override void OnUpgrade()
     {
+        _drawCount = 3m;
     }
 }

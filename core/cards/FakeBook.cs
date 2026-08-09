@@ -40,6 +40,6 @@ public class FakeBook : CustomCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Block.UpgradeValueBy(2m);
+        base.DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

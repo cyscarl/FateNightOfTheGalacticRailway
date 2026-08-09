@@ -31,7 +31,7 @@ public class MoralApproval : CustomCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<MegaCrit.Sts2.Core.Models.Powers.StrengthPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        await PowerCmd.Apply<MegaCrit.Sts2.Core.Models.Powers.StrengthPower>(choiceContext, Owner.Creature, IsUpgraded ? 2m : 1m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

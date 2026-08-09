@@ -18,17 +18,15 @@ public class ProjectionMagicGemWind : ProjectionCardBase
 {
     public ProjectionMagicGemWind() : base(CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
-    private int _healAmount = 8;
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[] { };
     public override string PortraitPath => "MagicGemWind.png".CardPortraitPath();
     public override string CustomPortraitPath => "MagicGemWind.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "MagicGemWind.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, _healAmount);
+        await CreatureCmd.Heal(Owner.Creature, 4m);
     }
     protected override void OnUpgrade()
     {
-        _healAmount = 11;
     }
 }

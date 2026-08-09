@@ -23,18 +23,28 @@ namespace FateNightOfTheGalacticRailway.Core.Powers;
 public class AhaSwordTracker : RinPower
 {
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.None;
+    // Counter stack so the running count (0 → Threshold) is visible on the icon.
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    /// <summary>Number of cards played per trigger (3 by default, 2 for an upgraded AhaSword).</summary>
+    public int Threshold { get; set; } = 3;
+
+    // Multiple sources can coexist with independent counters.
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner?.Creature != Owner) return;
         // Don't count the card that granted this power — its own play (or a
-        // projected copy) doesn't advance the 3-card counter, only later cards do.
+        // projected copy) doesn't advance the counter, only later cards do.
         if (cardPlay.Card is AhaSword or ProjectionAhaSword) return;
         await PowerCmd.ModifyAmount(context, this, 1m, Owner, null);
-        if (Amount >= 3)
+        if (Amount >= Threshold)
         {
-            await PowerCmd.ModifyAmount(context, this, -3m, Owner, null);
+            // Reset the counter in-place. Using SetAmount (not ModifyAmount) avoids
+            // ShouldRemoveDueToAmount removing the tracker at 0, so it can keep
+            // triggering repeatedly within the same turn.
+            SetAmount(0);
             await PowerCmd.Apply<PowerAhaStrikeDamageUp>(context, Owner, 1m, Owner, null);
         }
     }

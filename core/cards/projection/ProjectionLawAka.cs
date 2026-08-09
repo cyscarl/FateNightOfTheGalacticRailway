@@ -20,19 +20,17 @@ public class ProjectionLawAka : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new BlockVar(15m, ValueProp.Move)
+        new BlockVar(10m, ValueProp.Move)
     };
     public override string PortraitPath => "LawAka.png".CardPortraitPath();
     public override string CustomPortraitPath => "LawAka.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "LawAka.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        // Flat block — no reflect power is granted.
         await CreatureCmd.GainBlock(Owner.Creature, base.DynamicVars.Block, null);
-        // Reflect 50% of blocked damage this turn
-        await PowerCmd.Apply<Powers.LawAkaReflect>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

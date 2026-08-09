@@ -25,14 +25,13 @@ public class ProjectionPassTheParcel : ProjectionCardBase
     public override string PortraitPath => "PassTheParcel.png".CardPortraitPath();
     public override string CustomPortraitPath => "PassTheParcel.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "PassTheParcel.png".CardPortraitPath();
-    private decimal _hitCount = 3m;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.PassTheParcel>(choiceContext, cardPlay.Target, _hitCount, Owner.Creature, this);
+        await FateNightOfTheGalacticRailway.Core.Powers.PassTheParcel.ApplyMark(
+            choiceContext, cardPlay.Target, Owner.Creature, this, 4m);
     }
     protected override void OnUpgrade()
     {
-        _hitCount = 2m;
     }
 }

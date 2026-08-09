@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -29,6 +32,17 @@ public class ProjectionMoralApproval : ProjectionCardBase
     {
         await PowerCmd.Apply<MegaCrit.Sts2.Core.Models.Powers.StrengthPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
+
+    // This-turn only: remove the strength layer this projection added at end of the player's turn.
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
+        await base.AfterSideTurnEnd(choiceContext, side, participants);
+        if (Owner == null || !participants.Contains(Owner.Creature)) return;
+        var power = Owner.Creature.GetPower<MegaCrit.Sts2.Core.Models.Powers.StrengthPower>();
+        if (power != null)
+            await PowerCmd.ModifyAmount(choiceContext, power, -1m, Owner.Creature, null);
+    }
+
     protected override void OnUpgrade()
     {
     }

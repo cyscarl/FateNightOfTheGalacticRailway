@@ -20,7 +20,7 @@ public class ProjectionBoring : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(4m, ValueProp.Move)
+        new DamageVar(1m, ValueProp.Move)
     };
     public override string PortraitPath => "Boring.png".CardPortraitPath();
     public override string CustomPortraitPath => "Boring.png".BigCardPortraitPath();
@@ -37,6 +37,5 @@ public class ProjectionBoring : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

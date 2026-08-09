@@ -30,6 +30,8 @@ public class DeathTitanCloak : CustomCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[] { };
 
+    private decimal _drawCount = 1m;
+
     public override string PortraitPath => "DeathTitanCloak.png".CardPortraitPath();
     public override string CustomPortraitPath => "DeathTitanCloak.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "DeathTitanCloak.png".CardPortraitPath();
@@ -48,8 +50,11 @@ public class DeathTitanCloak : CustomCardModel
         foreach (var card in candidates)
             await CardCmd.Exhaust(choiceContext, card);
 
-        await CardPileCmd.Draw(choiceContext, 1m, Owner);
+        await CardPileCmd.Draw(choiceContext, _drawCount, Owner);
     }
 
-    protected override void OnUpgrade() { }
+    protected override void OnUpgrade()
+    {
+        _drawCount = 2m;
+    }
 }

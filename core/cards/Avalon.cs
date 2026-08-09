@@ -34,7 +34,7 @@ public class Avalon : CustomCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.Heal(Owner.Creature, _initialHeal);
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.AvalonRegen>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.AvalonRegen>(choiceContext, Owner.Creature, IsUpgraded ? 2m : 1m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

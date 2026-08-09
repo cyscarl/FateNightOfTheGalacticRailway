@@ -8,7 +8,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
-using FateNightOfTheGalacticRailway.Core.Cards.Projection;
 using FateNightOfTheGalacticRailway.Core.Characters;
 using FateNightOfTheGalacticRailway.Core.Cards;
 
@@ -29,23 +28,20 @@ public class ProjectionTrueEye : ProjectionCardBase
     {
         if (Owner == null || CombatState == null) return;
 
-        // Cards in the deck (draw + discard piles).
+        // Cards in the deck (draw + discard piles, excluding this card).
         var deck = CardPile.GetCards(Owner, PileType.Draw, PileType.Discard)
             .Where(c => c != this)
             .ToList();
         if (deck.Count == 0) return;
 
         var rng = Owner.RunState.Rng.CombatCardSelection;
-        int count = Math.Min(2, deck.Count);
+        int count = Math.Min(1, deck.Count);
         for (int i = 0; i < count; i++)
         {
             int idx = rng.NextInt(deck.Count);
             var original = deck[idx];
             deck.RemoveAt(idx);
 
-            // Auto-play the projection card — triggers its effect at no cost,
-            // ignoring conditions. Playing a projection (e.g. 伪幻想崩坏) still fires
-            // AfterCardPlayed, so 幻想崩坏's cost-reduction triggers normally.
             var projection = ProjectionUtil.CreateProjectionCard(original, CombatState, Owner);
             await CardCmd.AutoPlay(choiceContext, projection, null);
         }

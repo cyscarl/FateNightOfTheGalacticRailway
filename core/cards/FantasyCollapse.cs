@@ -73,6 +73,6 @@ public class FantasyCollapse : CustomCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
+        base.DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

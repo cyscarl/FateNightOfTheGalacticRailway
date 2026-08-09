@@ -31,7 +31,7 @@ public class KingGoblet : CustomCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.KingGoblet>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.KingGoblet>(choiceContext, Owner.Creature, IsUpgraded ? 3m : 2m, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

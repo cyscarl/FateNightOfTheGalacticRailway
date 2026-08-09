@@ -35,14 +35,14 @@ public class TrueEye : CustomCardModel
     {
         if (Owner == null || CombatState == null) return;
 
-        // Cards in the deck (draw + discard piles).
-        var deck = CardPile.GetCards(Owner, PileType.Draw, PileType.Discard)
+        // Cards in the deck (draw + discard + hand, excluding this card).
+        var deck = CardPile.GetCards(Owner, PileType.Draw, PileType.Discard, PileType.Hand)
             .Where(c => c != this)
             .ToList();
         if (deck.Count == 0) return;
 
         var rng = Owner.RunState.Rng.CombatCardSelection;
-        int count = Math.Min(2, deck.Count);
+        int count = Math.Min(IsUpgraded ? 3 : 2, deck.Count);
         for (int i = 0; i < count; i++)
         {
             int idx = rng.NextInt(deck.Count);

@@ -16,7 +16,7 @@ namespace FateNightOfTheGalacticRailway.Core.Cards;
 [Pool(typeof(RinCardPool))]
 public class FriendshipProof : CustomCardModel
 {
-    public FriendshipProof() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.None)
+    public FriendshipProof() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.None)
     {
     }
 
@@ -54,5 +54,6 @@ public class FriendshipProof : CustomCardModel
 
     protected override void OnUpgrade()
     {
+        EnergyCost.UpgradeBy(-1);
     }
 }

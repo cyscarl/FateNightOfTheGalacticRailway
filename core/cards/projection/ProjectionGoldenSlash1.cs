@@ -18,7 +18,7 @@ public class ProjectionGoldenSlash1 : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(4m, ValueProp.Move)
     };
 
     public override string PortraitPath => "GoldenSlash1.png".CardPortraitPath();
@@ -36,6 +36,5 @@ public class ProjectionGoldenSlash1 : ProjectionCardBase
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

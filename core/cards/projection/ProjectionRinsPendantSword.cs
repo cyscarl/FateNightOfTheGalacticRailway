@@ -23,14 +23,13 @@ public class ProjectionRinsPendantSword : ProjectionCardBase
     public override string PortraitPath => "RinsPendantSword.png".CardPortraitPath();
     public override string CustomPortraitPath => "RinsPendantSword.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "RinsPendantSword.png".CardPortraitPath();
-    private decimal _freeCount = 3m;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        // Next 1 Golden Slash card costs 0.
         await PowerCmd.Apply<NextGoldenSlashFreePower>(
-            choiceContext, Owner.Creature, _freeCount, Owner.Creature, this);
+            choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
-        _freeCount = 4m;
     }
 }

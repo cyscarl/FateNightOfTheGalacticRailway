@@ -27,7 +27,20 @@ public class ProjectionWhyAreYouHere : ProjectionCardBase
     public override string BetaPortraitPath => "WhyAreYouHere.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.WhyAreYouHere>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        if (Owner == null || CombatState == null) return;
+
+        var existing = Owner.Creature.GetPower<FateNightOfTheGalacticRailway.Core.Powers.WhyAreYouHere>();
+        if (existing != null)
+        {
+            // Power exists — gain a reward at its current level.
+            await existing.GenerateRewardCard(choiceContext, Owner);
+        }
+        else
+        {
+            // No power — gain the level-1 reward (Divine Creation).
+            var card = CombatState.CreateCard<DivineCreation>(Owner);
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner);
+        }
     }
     protected override void OnUpgrade()
     {

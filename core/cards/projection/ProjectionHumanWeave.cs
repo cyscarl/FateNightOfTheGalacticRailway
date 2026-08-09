@@ -23,7 +23,7 @@ public class ProjectionHumanWeave : ProjectionCardBase
     public override string BetaPortraitPath => "HumanWeave.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, 3m);
+        // Draw only — no heal.
         await CardPileCmd.Draw(choiceContext, 1m, Owner);
     }
     protected override void OnUpgrade() { }

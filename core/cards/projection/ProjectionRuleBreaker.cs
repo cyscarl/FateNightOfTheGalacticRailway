@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
+using FateNightOfTheGalacticRailway.Core.Powers;
 using FateNightOfTheGalacticRailway.Core.Cards;
 
 namespace FateNightOfTheGalacticRailway.Core.Cards.Projection;
@@ -20,7 +21,7 @@ public class ProjectionRuleBreaker : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(4m, ValueProp.Move)
     };
     public override string PortraitPath => "RuleBreaker.png".CardPortraitPath();
     public override string CustomPortraitPath => "RuleBreaker.png".BigCardPortraitPath();
@@ -33,10 +34,9 @@ public class ProjectionRuleBreaker : ProjectionCardBase
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        await PowerCmd.Apply<Powers.RuleBreakerMark>(choiceContext, cardPlay.Target, 3m, Owner.Creature, this);
+        await PowerCmd.Apply<RuleBreakerMark>(choiceContext, cardPlay.Target, 1m, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

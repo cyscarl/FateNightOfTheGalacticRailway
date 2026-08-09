@@ -19,7 +19,6 @@ public class ProjectionMagicGemWater : ProjectionCardBase
 {
     public ProjectionMagicGemWater() : base(CardType.Skill, CardRarity.Common, TargetType.AnyEnemy) { }
 
-    private decimal _extraDamage = 2m;
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[] { };
     public override string PortraitPath => "MagicGemWater.png".CardPortraitPath();
     public override string CustomPortraitPath => "MagicGemWater.png".BigCardPortraitPath();
@@ -27,10 +26,9 @@ public class ProjectionMagicGemWater : ProjectionCardBase
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await PowerCmd.Apply<RuleBreakerMark>(choiceContext, cardPlay.Target, _extraDamage, Owner.Creature, this);
+        await PowerCmd.Apply<RuleBreakerMark>(choiceContext, cardPlay.Target, 1m, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
-        _extraDamage = 3m;
     }
 }

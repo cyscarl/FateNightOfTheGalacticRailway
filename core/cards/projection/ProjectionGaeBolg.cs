@@ -1,16 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
-using FateNightOfTheGalacticRailway.Core.Cards;
 
 namespace FateNightOfTheGalacticRailway.Core.Cards.Projection;
 
@@ -23,7 +19,7 @@ public class ProjectionGaeBolg : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(18m, ValueProp.Move)
+        new DamageVar(9m, ValueProp.Move)
     };
     public override string PortraitPath => "GaeBolg.png".CardPortraitPath();
     public override string CustomPortraitPath => "GaeBolg.png".BigCardPortraitPath();
@@ -36,19 +32,7 @@ public class ProjectionGaeBolg : ProjectionCardBase
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
     }
-    /// <summary>
-    /// Reduce cost by 1 at the end of each turn while this card stays in hand.
-    /// Each trigger stacks (cost -1 from the current cost). Resets when played.
-    /// </summary>
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        await base.AfterSideTurnEnd(choiceContext, side, participants);
-        if (side != CombatSide.Player) return;
-        if (Pile?.Type != PileType.Hand || Owner == null) return;
-        EnergyCost.AddUntilPlayed(-1);
-    }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }

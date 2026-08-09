@@ -27,7 +27,10 @@ public class ProjectionSimpleTrial : ProjectionCardBase
     public override string BetaPortraitPath => "SimpleTrial.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PlayerCmd.GainEnergy(1m, Owner);
+        if (Owner == null) return;
+        // 50% chance to gain 1 Energy.
+        if (Owner.RunState.Rng.CombatCardSelection.NextDouble() < 0.5)
+            await PlayerCmd.GainEnergy(1m, Owner);
     }
     protected override void OnUpgrade()
     {

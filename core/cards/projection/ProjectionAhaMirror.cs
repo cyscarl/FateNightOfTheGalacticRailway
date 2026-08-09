@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Rooms;
@@ -17,7 +19,7 @@ namespace FateNightOfTheGalacticRailway.Core.Cards.Projection;
 [Pool(typeof(WeakenedCardPool))]
 public class ProjectionAhaMirror : ProjectionCardBase
 {
-    public ProjectionAhaMirror() : base(CardType.Skill, CardRarity.Uncommon, TargetType.None) { }
+    public ProjectionAhaMirror() : base(CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
@@ -27,15 +29,26 @@ public class ProjectionAhaMirror : ProjectionCardBase
     public override string BetaPortraitPath => "AhaMirror.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (CombatState == null) return;
+        if (cardPlay.Target == null || CombatState == null) return;
 
-        // Only stun in normal monster rooms, not Elite or Boss
+        // In Elite/Boss rooms only summoned minions can be selected — the initial
+        // encounter monsters (the elite/boss itself) are immune.
         var roomType = CombatState.RunState.CurrentRoom.RoomType;
-        if (roomType == RoomType.Elite || roomType == RoomType.Boss) return;
+        bool eliteOrBossRoom = roomType == RoomType.Elite || roomType == RoomType.Boss;
+        if (eliteOrBossRoom && IsInitialEncounterMonster(cardPlay.Target))
+            return;
 
-        foreach (var enemy in CombatState.HittableEnemies)
-            await CreatureCmd.Stun(enemy);
+        await CreatureCmd.Stun(cardPlay.Target);
     }
+
+    /// <summary>Whether <paramref name="enemy"/> is one of the encounter's initial
+    /// monsters (as opposed to a summon that spawned mid-combat).</summary>
+    private static bool IsInitialEncounterMonster(Creature enemy)
+    {
+        var encounter = enemy.CombatState?.Encounter;
+        return encounter?.MonstersWithSlots.Any(ms => ms.Item1.Creature == enemy) == true;
+    }
+
     protected override void OnUpgrade()
     {
     }

@@ -20,7 +20,7 @@ public class ProjectionCooperation : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(2m, ValueProp.Move)
     };
     public override string PortraitPath => "Cooperation.png".CardPortraitPath();
     public override string CustomPortraitPath => "Cooperation.png".BigCardPortraitPath();
@@ -33,6 +33,5 @@ public class ProjectionCooperation : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

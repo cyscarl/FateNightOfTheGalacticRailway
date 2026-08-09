@@ -38,7 +38,7 @@ public class ProjectionDeathTitanCloak : ProjectionCardBase
         foreach (var card in candidates)
             await CardCmd.Exhaust(choiceContext, card);
 
-        await CardPileCmd.Draw(choiceContext, 1m, Owner);
+        // No draw — this projection only exhausts a draw-pile card.
     }
     protected override void OnUpgrade() { }
 }

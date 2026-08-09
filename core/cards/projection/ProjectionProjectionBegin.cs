@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
@@ -8,11 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
-using STS2RitsuLib.Keywords;
-using FateNightOfTheGalacticRailway.Core;
-using FateNightOfTheGalacticRailway.Core.Cards.Projection;
 using FateNightOfTheGalacticRailway.Core.Characters;
-using FateNightOfTheGalacticRailway.Core.Cards;
 
 namespace FateNightOfTheGalacticRailway.Core.Cards.Projection;
 
@@ -32,24 +26,14 @@ public class ProjectionProjectionBegin : ProjectionCardBase
     public override string BetaPortraitPath => "ProjectionBegin.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        // Pure damage — no projection card is generated.
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
-
-        if (Owner == null || CombatState == null) return;
-
-        // Randomly pick one card that exists in the player's deck, then add its
-        // projection card to hand (generic ProjectionUtil, reusable from any source).
-        var candidates = Owner.Deck.Cards.ToList();
-        if (candidates.Count == 0) return;
-
-        int idx = Owner.RunState.Rng.CombatCardSelection.NextInt(candidates.Count);
-        await ProjectionUtil.AddProjectionToHand(choiceContext, candidates[idx], CombatState, Owner);
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

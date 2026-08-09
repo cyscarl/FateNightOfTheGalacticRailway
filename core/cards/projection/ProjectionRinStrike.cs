@@ -20,7 +20,7 @@ public class ProjectionRinStrike : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(3m, ValueProp.Move)
     };
     public override string PortraitPath => "RinStrike.png".CardPortraitPath();
     public override string CustomPortraitPath => "RinStrike.png".BigCardPortraitPath();
@@ -35,6 +35,5 @@ public class ProjectionRinStrike : ProjectionCardBase
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

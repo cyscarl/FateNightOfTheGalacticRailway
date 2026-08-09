@@ -20,21 +20,17 @@ public class ProjectionFakeBook : ProjectionCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
-        new BlockVar(6m, ValueProp.Move)
+        new BlockVar(4m, ValueProp.Move)
     };
     public override string PortraitPath => "FakeBook.png".CardPortraitPath();
     public override string CustomPortraitPath => "FakeBook.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "FakeBook.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        // Flat block only — no 50% of current block bonus.
         await CreatureCmd.GainBlock(Owner.Creature, base.DynamicVars.Block, null);
-        // Gain extra block equal to 50% of current block
-        var extra = (decimal)System.Math.Floor(Owner.Creature.Block * 0.5);
-        if (extra > 0)
-            await CreatureCmd.GainBlock(Owner.Creature, extra, ValueProp.Unpowered, null);
     }
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Block.UpgradeValueBy(2m);
     }
 }

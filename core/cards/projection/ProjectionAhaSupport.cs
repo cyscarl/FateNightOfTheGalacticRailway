@@ -4,6 +4,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using FateNightOfTheGalacticRailway.Core.Characters;
@@ -18,6 +19,10 @@ public class ProjectionAhaSupport : ProjectionCardBase
 {
     public ProjectionAhaSupport() : base(CardType.Skill, CardRarity.Common, TargetType.None) { }
 
+    // 阿哈打击！ referenced in the description — show a card preview on hover.
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        new[] { HoverTipFactory.FromCard<AhaStrike>() };
+
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
         // No canonical vars
@@ -25,13 +30,13 @@ public class ProjectionAhaSupport : ProjectionCardBase
     public override string PortraitPath => "AhaSupport.png".CardPortraitPath();
     public override string CustomPortraitPath => "AhaSupport.png".BigCardPortraitPath();
     public override string BetaPortraitPath => "AhaSupport.png".CardPortraitPath();
-    private decimal _amount = 1m;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.PowerAhaStrikeDamageUp>(choiceContext, Owner.Creature, _amount, Owner.Creature, this);
+        // Permanent +1 AhaStrike damage this combat.
+        await PowerCmd.Apply<FateNightOfTheGalacticRailway.Core.Powers.PowerAhaStrikeDamageUp>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
     }
+
     protected override void OnUpgrade()
     {
-        _amount = 2m;
     }
 }

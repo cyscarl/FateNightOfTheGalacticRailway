@@ -31,7 +31,7 @@ public class SimpleTrial : CustomCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PlayerCmd.GainEnergy(1m, Owner);
+        await PlayerCmd.GainEnergy(IsUpgraded ? 2m : 1m, Owner);
     }
 
     protected override void OnUpgrade()

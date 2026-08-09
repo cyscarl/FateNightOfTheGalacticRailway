@@ -18,7 +18,6 @@ public class ProjectionWantedPoster : ProjectionCardBase
 {
     public ProjectionWantedPoster() : base(CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
-    private decimal _vulnAmount = 1m;
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[] { };
     public override string PortraitPath => "WantedPoster.png".CardPortraitPath();
     public override string CustomPortraitPath => "WantedPoster.png".BigCardPortraitPath();
@@ -26,11 +25,10 @@ public class ProjectionWantedPoster : ProjectionCardBase
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await PowerCmd.Apply<MegaCrit.Sts2.Core.Models.Powers.VulnerablePower>(choiceContext, cardPlay.Target, _vulnAmount, Owner.Creature, this);
-        await CardPileCmd.Draw(choiceContext, 1m, Owner, false);
+        // Applies 1 Vulnerable — no card draw.
+        await PowerCmd.Apply<MegaCrit.Sts2.Core.Models.Powers.VulnerablePower>(choiceContext, cardPlay.Target, 1m, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
-        _vulnAmount = 2m;
     }
 }

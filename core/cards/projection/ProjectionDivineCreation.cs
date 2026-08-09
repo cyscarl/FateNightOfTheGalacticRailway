@@ -23,7 +23,7 @@ public class ProjectionDivineCreation : ProjectionCardBase
     public override string BetaPortraitPath => "DivineCreation.png".CardPortraitPath();
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, 3m);
+        await CreatureCmd.Heal(Owner.Creature, 2m);
     }
     protected override void OnUpgrade() { }
 }
