@@ -10,11 +10,19 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using FateNightOfTheGalacticRailway.Core.Cards;
+using FateNightOfTheGalacticRailway.Core.Cards.Projection;
+// This power shares its class name with the granting card
+// (FateNightOfTheGalacticRailway.Core.Cards.GoldenRule) — alias to refer to
+// the card type unambiguously from within this class.
+using GoldenRuleCard = FateNightOfTheGalacticRailway.Core.Cards.GoldenRule;
 
 namespace FateNightOfTheGalacticRailway.Core.Powers;
 
 /// <summary>
-/// Each time a card is played this turn, generate a KingTreasure.
+/// While active, each card the player plays generates a KingTreasure.
+/// Counting only starts for cards played AFTER this power is granted:
+/// cards played before the granting card, and the granting card's own play
+/// (or a projected copy of it), do not count.
 /// Hand limit: only 1 KingTreasure. Duplicates buff existing instead.
 /// Removed at end of turn.
 /// </summary>
@@ -28,8 +36,9 @@ public class GoldenRule : RinPower
         if (Owner == null) return;
         var player = Owner.Player;
         if (player == null || cardPlay.Card.Owner != player) return;
-        // Don't trigger on the GoldenRule card itself — only on subsequent cards
-        if (cardPlay.Card is GoldenRule) return;
+        // Don't count the card that granted this power — its own play (or a
+        // projected copy of it) doesn't generate a treasure, only later cards do.
+        if (cardPlay.Card is GoldenRuleCard or ProjectionGoldenRule) return;
         await KingTreasure.AddToHand(player);
     }
 

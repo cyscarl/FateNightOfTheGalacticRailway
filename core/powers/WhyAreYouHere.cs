@@ -9,6 +9,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Runs;
 using FateNightOfTheGalacticRailway.Core.Cards;
+using FateNightOfTheGalacticRailway.Core.Cards.Projection;
+// This power shares its class name with the granting card
+// (FateNightOfTheGalacticRailway.Core.Cards.WhyAreYouHere) — alias to refer to
+// the card type unambiguously from within this class.
+using WhyAreYouHereCard = FateNightOfTheGalacticRailway.Core.Cards.WhyAreYouHere;
 
 namespace FateNightOfTheGalacticRailway.Core.Powers;
 
@@ -17,6 +22,8 @@ namespace FateNightOfTheGalacticRailway.Core.Powers;
 ///   Lv1 (0-9): DivineCreation (heal 3)
 ///   Lv2 (10-19): HumanWeave (heal 3 + draw 1)
 ///   Lv3 (20+): ReturnToEarth (heal 3 + draw 1 + energy 1)
+/// Counting starts only after the granting card resolves — its own play (or a
+/// projected copy of it) does not count.
 /// </summary>
 public class WhyAreYouHere : RinPower
 {
@@ -35,6 +42,9 @@ public class WhyAreYouHere : RinPower
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner?.Creature != Owner) return;
+        // Don't count the card that granted this power — its own play (or a
+        // projected copy) doesn't advance the reward, only later cards do.
+        if (cardPlay.Card is WhyAreYouHereCard or ProjectionWhyAreYouHere) return;
         if (Amount >= 30) return; // Stop counting at level 3
         await PowerCmd.ModifyAmount(context, this, 1m, Owner, null);
     }
